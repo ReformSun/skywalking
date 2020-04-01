@@ -30,6 +30,7 @@ import org.apache.skywalking.apm.agent.core.plugin.match.ClassMatch;
 import org.apache.skywalking.apm.util.StringUtil;
 
 /**
+ * 全部自动化测量仪表的插件的基础类
  * Basic abstract class of all sky-walking auto-instrumentation plugins.
  * <p>
  * It provides the outline of enhancing the target class. If you want to know more about enhancing, you should go to see
@@ -39,6 +40,7 @@ public abstract class AbstractClassEnhancePluginDefine {
     private static final ILog logger = LogManager.getLogger(AbstractClassEnhancePluginDefine.class);
 
     /**
+     * 增强类的主入口
      * Main entrance of enhancing the class.
      *
      * @param typeDescription target class description.

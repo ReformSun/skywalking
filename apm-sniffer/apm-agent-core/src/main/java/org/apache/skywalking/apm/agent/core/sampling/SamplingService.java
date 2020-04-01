@@ -86,6 +86,7 @@ public class SamplingService implements BootService {
     }
 
     /**
+     * 每三秒钟的采集个数
      * @return true, if sampling mechanism is on, and getDefault the sampling factor successfully.
      */
     public boolean trySampling() {
@@ -101,6 +102,7 @@ public class SamplingService implements BootService {
     }
 
     /**
+     * 强制增加采集系数，避免采集太多的traces，如果非常多的分布式traces需要被采集，开始于本地的trace有更少的机会被采集到
      * Increase the sampling factor by force, to avoid sampling too many traces. If many distributed traces require
      * sampled, the trace beginning at local, has less chance to be sampled.
      */

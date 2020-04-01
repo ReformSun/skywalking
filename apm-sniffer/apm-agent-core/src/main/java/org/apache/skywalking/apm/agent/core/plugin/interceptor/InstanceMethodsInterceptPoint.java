@@ -22,6 +22,7 @@ import net.bytebuddy.description.method.MethodDescription;
 import net.bytebuddy.matcher.ElementMatcher;
 
 /**
+ * 拦截点
  * One of the three "Intercept Point". "Intercept Point" is a definition about where and how intercept happens. In this
  * "Intercept Point", the definition targets class's instance methods, and the interceptor.
  * <p>
@@ -30,6 +31,7 @@ import net.bytebuddy.matcher.ElementMatcher;
  */
 public interface InstanceMethodsInterceptPoint {
     /**
+     * 方法描述
      * class instance methods matcher.
      *
      * @return methods matcher

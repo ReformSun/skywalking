@@ -41,11 +41,19 @@ import static org.apache.skywalking.apm.agent.core.conf.Config.Agent.OPERATION_N
  */
 public class ContextManager implements BootService {
     private static final ILog logger = LogManager.getLogger(ContextManager.class);
+    // 使用threadlocal保存当前线程的信息
     private static ThreadLocal<AbstractTracerContext> CONTEXT = new ThreadLocal<AbstractTracerContext>();
     private static ThreadLocal<RuntimeContext> RUNTIME_CONTEXT = new ThreadLocal<RuntimeContext>();
     private static ContextManagerExtendService EXTEND_SERVICE;
 
+    /**
+     * 得到并创建追踪上下文
+     * @param operationName
+     * @param forceSampling
+     * @return
+     */
     private static AbstractTracerContext getOrCreate(String operationName, boolean forceSampling) {
+        // 获取当前线程的上下文信息
         AbstractTracerContext context = CONTEXT.get();
         if (context == null) {
             if (StringUtil.isEmpty(operationName)) {
@@ -59,6 +67,7 @@ public class ContextManager implements BootService {
                     if (EXTEND_SERVICE == null) {
                         EXTEND_SERVICE = ServiceManager.INSTANCE.findService(ContextManagerExtendService.class);
                     }
+                    // 结束服务
                     context = EXTEND_SERVICE.createTraceContext(operationName, forceSampling);
                 } else {
                     /*
@@ -88,6 +97,12 @@ public class ContextManager implements BootService {
         }
     }
 
+    /**
+     * 创建实体span
+     * @param operationName
+     * @param carrier
+     * @return
+     */
     public static AbstractSpan createEntrySpan(String operationName, ContextCarrier carrier) {
         AbstractSpan span;
         AbstractTracerContext context;
@@ -111,11 +126,19 @@ public class ContextManager implements BootService {
         return context.createLocalSpan(operationName);
     }
 
+    /**
+     * 创建停止的span
+     * @param operationName
+     * @param carrier
+     * @param remotePeer
+     * @return
+     */
     public static AbstractSpan createExitSpan(String operationName, ContextCarrier carrier, String remotePeer) {
         if (carrier == null) {
             throw new IllegalArgumentException("ContextCarrier can't be null.");
         }
         operationName = StringUtil.cut(operationName, OPERATION_NAME_THRESHOLD);
+        // 得到或者创建上下文
         AbstractTracerContext context = getOrCreate(operationName, false);
         AbstractSpan span = context.createExitSpan(operationName, remotePeer);
         context.inject(carrier);

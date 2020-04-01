@@ -338,6 +338,7 @@ public class TracingContext implements AbstractTracerContext {
     }
 
     /**
+     * 创建一个出口span
      * Create an exit span
      *
      * @param operationName most likely a service name of remote
@@ -462,6 +463,7 @@ public class TracingContext implements AbstractTracerContext {
     }
 
     /**
+     * 完成这个上下文，并通知所有的追踪上下文监听器
      * Finish this context, and notify all {@link TracingContextListener}s, managed by {@link
      * TracingContext.ListenerManager} and {@link TracingContext.TracingThreadListenerManager}
      */
@@ -487,12 +489,14 @@ public class TracingContext implements AbstractTracerContext {
                  * @see {@link #createSpan(String, long, boolean)}
                  */
                 if (!segment.hasRef() && segment.isSingleSpanSegment()) {
+                    // 判断采集服务试图采集，如果无法采集设为忽略
                     if (!SAMPLING_SERVICE.trySampling()) {
                         finishedSegment.setIgnore(true);
                     }
                 }
 
                 /*
+                 * 判断这个segment 是否是这个agent被注册到后端之后创建的，否则设为忽略
                  * Check that the segment is created after the agent (re-)registered to backend,
                  * otherwise the segment may be created when the agent is still rebooting and should
                  * be ignored

@@ -61,7 +61,7 @@ public class SkyWalkingAgent {
         final PluginFinder pluginFinder;
         try {
             SnifferConfigInitializer.initialize(agentArgs);
-
+            // 插件获得者 获取所有插件信息
             pluginFinder = new PluginFinder(new PluginBootstrap().loadPlugins());
 
         } catch (AgentPackageNotFoundException ape) {
@@ -74,6 +74,9 @@ public class SkyWalkingAgent {
 
         final ByteBuddy byteBuddy = new ByteBuddy().with(TypeValidation.of(Config.Agent.IS_OPEN_DEBUGGING_CLASS));
 
+        /**
+         * 过滤需要忽略的类
+         */
         AgentBuilder agentBuilder = new AgentBuilder.Default(byteBuddy).ignore(
             nameStartsWith("net.bytebuddy.").or(nameStartsWith("org.slf4j."))
                                             .or(nameStartsWith("org.groovy."))
@@ -127,11 +130,13 @@ public class SkyWalkingAgent {
                                                 final TypeDescription typeDescription,
                                                 final ClassLoader classLoader,
                                                 final JavaModule module) {
+            // 通过类类型描述获取对应的插件信息，进行增强
             List<AbstractClassEnhancePluginDefine> pluginDefines = pluginFinder.find(typeDescription);
             if (pluginDefines.size() > 0) {
                 DynamicType.Builder<?> newBuilder = builder;
                 EnhanceContext context = new EnhanceContext();
                 for (AbstractClassEnhancePluginDefine define : pluginDefines) {
+                    // 获取插件的自定义类
                     DynamicType.Builder<?> possibleNewBuilder = define.define(
                         typeDescription, newBuilder, classLoader, context);
                     if (possibleNewBuilder != null) {

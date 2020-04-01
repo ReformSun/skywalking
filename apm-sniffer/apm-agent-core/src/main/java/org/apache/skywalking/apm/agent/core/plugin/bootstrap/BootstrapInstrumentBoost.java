@@ -78,7 +78,7 @@ public class BootstrapInstrumentBoost {
         if (!prepareJREInstrumentation(pluginFinder, classesTypeMap)) {
             return agentBuilder;
         }
-
+        // 加载高优先级的类文件
         for (String highPriorityClass : HIGH_PRIORITY_CLASSES) {
             loadHighPriorityClass(classesTypeMap, highPriorityClass);
         }
@@ -139,6 +139,7 @@ public class BootstrapInstrumentBoost {
     private static boolean prepareJREInstrumentation(PluginFinder pluginFinder,
         Map<String, byte[]> classesTypeMap) throws PluginException {
         TypePool typePool = TypePool.Default.of(BootstrapInstrumentBoost.class.getClassLoader());
+        // 得到所有插件类
         List<AbstractClassEnhancePluginDefine> bootstrapClassMatchDefines = pluginFinder.getBootstrapClassMatchDefine();
         for (AbstractClassEnhancePluginDefine define : bootstrapClassMatchDefines) {
             for (InstanceMethodsInterceptPoint point : define.getInstanceMethodsInterceptPoints()) {

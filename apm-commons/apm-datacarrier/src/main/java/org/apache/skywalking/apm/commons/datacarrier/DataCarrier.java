@@ -129,6 +129,7 @@ public class DataCarrier<T> {
     }
 
     /**
+     * 设置消费驱动到载体中，消费者开始运行，到数据载体开始工作每20秒一个消费循环
      * set consumeDriver to this Carrier. consumer begin to run when {@link DataCarrier#produce} begin to work with 20
      * millis consume cycle.
      *

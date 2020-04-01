@@ -46,6 +46,7 @@ import static net.bytebuddy.matcher.ElementMatchers.isStatic;
 import static net.bytebuddy.matcher.ElementMatchers.not;
 
 /**
+ * 这个类控制全部的增强操作，包括增强构造器，实例方法 静态方法 全部的增强包含三类型 构造器拦截器点，实例方法拦截器点，静态方法拦截器点
  * This class controls all enhance operations, including enhance constructors, instance methods and static methods. All
  * the enhances base on three types interceptor point: {@link ConstructorInterceptPoint}, {@link
  * InstanceMethodsInterceptPoint} and {@link StaticMethodsInterceptPoint} If plugin is going to enhance constructors,
@@ -61,7 +62,7 @@ public abstract class ClassEnhancePluginDefine extends AbstractClassEnhancePlugi
 
     /**
      * Begin to define how to enhance class. After invoke this method, only means definition is finished.
-     *
+     * 定义类的描述
      * @param typeDescription target class description
      * @param newClassBuilder byte-buddy's builder to manipulate class bytecode.
      * @return new byte-buddy's builder for further manipulation.

@@ -50,6 +50,7 @@ public class Config {
         public static String AUTHENTICATION = "";
 
         /**
+         * 拒绝和0意味着关闭
          * Negative or zero means off, by default. {@code #SAMPLE_N_PER_3_SECS} means sampling N {@link TraceSegment} in
          * 3 seconds tops.
          */
@@ -67,7 +68,9 @@ public class Config {
         public static int SPAN_LIMIT_PER_SEGMENT = 300;
 
         /**
+         * 如果是true skywalking的agent将保存所有的转货类文件 到debugging 文件夹中
          * If true, SkyWalking agent will save all instrumented classes files in `/debugging` folder. SkyWalking team
+         * skywalking
          * may ask for these files in order to resolve compatible problem.
          */
         public static boolean IS_OPEN_DEBUGGING_CLASS = false;

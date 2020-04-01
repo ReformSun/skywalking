@@ -46,6 +46,12 @@ public class ContextManagerExtendService implements BootService {
 
     }
 
+    /**
+     * 创建trace上下文
+     * @param operationName
+     * @param forceSampling
+     * @return
+     */
     public AbstractTracerContext createTraceContext(String operationName, boolean forceSampling) {
         AbstractTracerContext context;
         int suffixIdx = operationName.lastIndexOf(".");

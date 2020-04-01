@@ -23,6 +23,10 @@ import java.util.List;
 import org.apache.skywalking.apm.commons.datacarrier.buffer.Buffer;
 import org.apache.skywalking.apm.commons.datacarrier.buffer.QueueBuffer;
 
+/**
+ * 消费线程
+ * @param <T>
+ */
 public class ConsumerThread<T> extends Thread {
     private volatile boolean running;
     private IConsumer<T> consumer;
@@ -38,6 +42,7 @@ public class ConsumerThread<T> extends Thread {
     }
 
     /**
+     * 增加数据源
      * add whole buffer to consume
      */
     void addDataSource(QueueBuffer<T> sourceBuffer) {

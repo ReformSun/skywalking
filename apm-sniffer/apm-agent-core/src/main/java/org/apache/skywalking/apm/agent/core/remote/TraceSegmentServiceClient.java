@@ -50,7 +50,9 @@ public class TraceSegmentServiceClient implements BootService, IConsumer<TraceSe
     private long lastLogTime;
     private long segmentUplinkedCounter;
     private long segmentAbandonedCounter;
+    // 数据运送者 载体
     private volatile DataCarrier<TraceSegment> carrier;
+    // trace 报告到服务grpc处
     private volatile TraceSegmentReportServiceGrpc.TraceSegmentReportServiceStub serviceStub;
     private volatile GRPCChannelStatus status = GRPCChannelStatus.DISCONNECT;
 
@@ -64,6 +66,7 @@ public class TraceSegmentServiceClient implements BootService, IConsumer<TraceSe
         lastLogTime = System.currentTimeMillis();
         segmentUplinkedCounter = 0;
         segmentAbandonedCounter = 0;
+        // 设置通道尺寸和缓存尺寸
         carrier = new DataCarrier<>(CHANNEL_SIZE, BUFFER_SIZE);
         carrier.setBufferStrategy(BufferStrategy.IF_POSSIBLE);
         carrier.consume(this, 1);
@@ -165,8 +168,13 @@ public class TraceSegmentServiceClient implements BootService, IConsumer<TraceSe
 
     }
 
+    /**
+     * 接受完成的trace
+     * @param traceSegment
+     */
     @Override
     public void afterFinished(TraceSegment traceSegment) {
+        // 判断是否忽略 如果忽略，就丢弃
         if (traceSegment.isIgnore()) {
             return;
         }

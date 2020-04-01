@@ -22,6 +22,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.apache.skywalking.apm.commons.datacarrier.buffer.Channels;
 
 /**
+ * 消费池
  * Pool of consumers <p> Created by wusheng on 2016/10/25.
  */
 public class ConsumeDriver<T> implements IDriver {

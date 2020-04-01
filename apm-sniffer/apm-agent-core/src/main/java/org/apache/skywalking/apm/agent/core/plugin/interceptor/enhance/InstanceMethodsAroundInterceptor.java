@@ -21,6 +21,7 @@ package org.apache.skywalking.apm.agent.core.plugin.interceptor.enhance;
 import java.lang.reflect.Method;
 
 /**
+ * 一个拦截器，拦截方法的
  * A interceptor, which intercept method's invocation. The target methods will be defined in {@link
  * ClassEnhancePluginDefine}'s subclass, most likely in {@link ClassInstanceMethodsEnhancePluginDefine}
  */
